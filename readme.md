@@ -4,7 +4,7 @@
 Analyser. My personal goal is to learn the basic concepts of GO in a nice
 and relaxed way. Comments and feedback is always weclome
 
-**Goal:* Parse a DKB CSV file and print out a nice report of the bank
+**Goal:** Parse a DKB CSV file and print out a nice report of the bank
 account details. First it will be command-line tool only.
 
 # Main Tasks
@@ -14,6 +14,7 @@ account details. First it will be command-line tool only.
 * Parse Header from csv custom dkb header
 * Print out the header
 * Calculate the income and expenses
+* Forecast calculation for the next month
 
 # Usage
 
@@ -23,7 +24,13 @@ go run main.go CSVFILEPATH
 
 # Tests
 
-next thing i will do
+This project has multiple little packages inside. All package will have tests.
+
+Within every package you can run:
+
+```
+go test 
+```
 
 # License
 

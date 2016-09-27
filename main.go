@@ -66,6 +66,7 @@ func main() {
 
 	//debug print out the parsed title
 	fmt.Println(thisAccount.Title)
+	fmt.Println(thisAccount.BeginDate.String())
 
 
 }

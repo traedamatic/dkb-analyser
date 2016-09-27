@@ -24,3 +24,22 @@ func TestParseDataAndSetAccountTitle(t *testing.T) {
 	}
 
 }
+
+//test empty slice of csv data
+func TestReadDataWithEmptySlice(t *testing.T) {
+
+	csvData := []string{}
+
+	newAccount := Account{}
+
+	result, err := newAccount.ReadData(csvData)
+
+	if result != false {
+		t.Fail()
+	}
+
+	if err != nil {
+		t.Fail()
+	}
+
+}

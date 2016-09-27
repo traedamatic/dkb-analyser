@@ -7,6 +7,10 @@ type Account struct {
 // read data from a string array and add it to the account struct
 func (a *Account) ReadData(data []string) (bool, error) {
 
+	if len(data) == 0 {
+		return false, nil
+	}
+
 	//check the first entry in the string array
 	if data[0] == "Kontonummer:" {
 

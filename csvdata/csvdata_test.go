@@ -15,6 +15,10 @@ func (a *TestAccount) SetBeginDate(stringDate string) (bool, error) {
 	return true, nil
 }
 
+func (a *TestAccount) SetEndDate(stringDate string) (bool, error) {
+	return true, nil
+}
+
 
 //read data and set the account title
 func TestParseDataAndSetAccountTitle(t *testing.T) {
@@ -58,6 +62,23 @@ func TestReadDataWithEmptySlice(t *testing.T) {
 func TestReadDataFromDate(t *testing.T) {
 
 	csvData := []string{"Von:", "05.04.2013"}
+
+	newAccount := &TestAccount{}
+	result, err := ParseCSV(newAccount, csvData)
+
+	if result == false {
+		t.Fail()
+	}
+
+	if err != nil {
+		t.Fail()
+	}
+
+}
+
+func TestParseCSV_EndDate(t *testing.T) {
+
+	csvData := []string{"Bis:", "05.04.2016"}
 
 	newAccount := &TestAccount{}
 	result, err := ParseCSV(newAccount, csvData)

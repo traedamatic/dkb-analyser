@@ -6,7 +6,7 @@ import (
 )
 
 // test to set the title
-func TestSetTitle(t *testing.T) {
+func TestAccount_SetTitle(t *testing.T) {
 
 	newAccount := Account{}
 
@@ -19,7 +19,7 @@ func TestSetTitle(t *testing.T) {
 }
 
 // test to set the title
-func TestSeBeginDate(t *testing.T) {
+func TestAccount_SetBeginDate(t *testing.T) {
 
 	newAccount := Account{}
 
@@ -31,5 +31,19 @@ func TestSeBeginDate(t *testing.T) {
 		t.Fail();
 	}
 
+}
+
+//test to set the end date
+func TestAccount_SetEndDate(t *testing.T) {
+
+	newAccount := Account{}
+
+	//set begin date
+	newAccount.SetEndDate("05.04.2016")
+
+	i, _ := time.Parse("02.01.2006", "05.04.2016")
+	if newAccount.EndDate  != i {
+		t.Fail();
+	}
 }
 

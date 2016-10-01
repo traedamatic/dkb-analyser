@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"./parsearguments"
 	"./account"
+	"./csvdata"
 	"log"
 	"bufio"
 	"encoding/csv"
@@ -34,7 +35,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	//create account instance
-	thisAccount := account.Account{}
+	thisAccount := &account.Account{}
 
 	for scanner.Scan() {
 
@@ -53,7 +54,7 @@ func main() {
 				log.Fatal(err)
 			}
 
-			_, readErr := thisAccount.ReadData(line)
+			_, readErr := csvdata.ParseCSV(thisAccount, line)
 
 			if readErr != nil {
 				log.Fatal(readErr)
@@ -67,6 +68,7 @@ func main() {
 	//debug print out the parsed title
 	fmt.Println(thisAccount.Title)
 	fmt.Println(thisAccount.BeginDate.String())
+	fmt.Println(thisAccount.EndDate.String())
 
 
 }

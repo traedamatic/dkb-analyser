@@ -20,9 +20,10 @@ func ParseCSV(account account.AccountInterface, data []string) (bool, error) {
 
 	case "Kontonummer:" :
 		return account.SetTitle(data[1])
-
 	case "Von:":
 		return account.SetBeginDate(data[1])
+	case "Bis:":
+		return account.SetEndDate(data[1])
 	}
 
 	return false, nil

@@ -13,12 +13,14 @@ import (
 type AccountInterface interface {
 	SetTitle(string) (bool, error)
 	SetBeginDate(string) (bool, error)
+	SetEndDate(string) (bool, error)
 }
 
 /// the account struct holds all account and financial information
 type Account struct {
 	Title string
 	BeginDate time.Time
+	EndDate time.Time
 }
 
 // setter method for the title
@@ -38,5 +40,17 @@ func (a *Account) SetBeginDate(stringDate string) (bool, error) {
 	}
 
 	a.BeginDate = i
+	return true, nil
+}
+
+func (a *Account) SetEndDate(stringDate string) (bool, error) {
+
+	i, err := time.Parse("02.01.2006", stringDate)
+
+	if err != nil {
+		return false, err
+	}
+
+	a.EndDate = i
 	return true, nil
 }

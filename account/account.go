@@ -1,39 +1,42 @@
 package account
 
+/**
+ 	The Account package holds the account related interfaces and structs. The account struct holds all information
+ 	of one account.
+ */
+
 import (
 	"time"
 )
 
+// a generic account interface
+type AccountInterface interface {
+	SetTitle(string) (bool, error)
+	SetBeginDate(string) (bool, error)
+}
+
+/// the account struct holds all account and financial information
 type Account struct {
 	Title string
 	BeginDate time.Time
 }
 
-// read data from a string array and add it to the account struct
-func (a *Account) ReadData(data []string) (bool, error) {
+// setter method for the title
+func (a *Account) SetTitle(title string) (bool, error) {
 
-	if len(data) == 0 {
-		return false, nil
+	a.Title = title
+	return true, nil
+}
+
+//setter method for the begin date
+func (a *Account) SetBeginDate(stringDate string) (bool, error) {
+
+	i, err := time.Parse("02.01.2006", stringDate)
+
+	if err != nil {
+		return false, err
 	}
 
-	//check the first entry in the string array
-	switch data[0] {
-
-	case "Kontonummer:" :
-		a.Title = data[1]
-		return true, nil
-
-	case "Von:":
-		date, parseError := time.Parse("02.01.2006", data[1])
-
-		if parseError != nil {
-			return false, parseError
-		}
-
-		a.BeginDate = date
-
-		return true, nil
-	}
-
-	return false, nil
+	a.BeginDate = i
+	return true, nil
 }

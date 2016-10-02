@@ -24,6 +24,8 @@ func ParseCSV(account account.AccountInterface, data []string) (bool, error) {
 		return account.SetBeginDate(data[1])
 	case "Bis:":
 		return account.SetEndDate(data[1])
+	case "Kontostand vom:":
+		return account.SetBalance(data[1])
 	}
 
 	return false, nil

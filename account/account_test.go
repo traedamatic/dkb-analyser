@@ -47,3 +47,45 @@ func TestAccount_SetEndDate(t *testing.T) {
 	}
 }
 
+//test the SetAccountBalance method and convert it to float (if string)
+func TestAccount_SetAccountBalance(t *testing.T) {
+
+	newAccount := Account{}
+
+	result, err := newAccount.SetBalance("3.333,77")
+
+	if result == false {
+		t.Fail()
+	}
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if newAccount.Balance != float64(3333.77)  {
+		t.Fail()
+	}
+
+}
+
+//test the SetAccountBalance method and convert it to float (if string)
+func TestAccount_SetAccountBalanceBig(t *testing.T) {
+
+	newAccount := Account{}
+
+	result, err := newAccount.SetBalance("413.333,77")
+
+	if result == false {
+		t.Fail()
+	}
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if newAccount.Balance != float64(413333.77)  {
+		t.Fail()
+	}
+
+}
+

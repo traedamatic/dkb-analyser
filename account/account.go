@@ -17,14 +17,35 @@ type AccountInterface interface {
 	SetBeginDate(string) (bool, error)
 	SetEndDate(string) (bool, error)
 	SetBalance(string) (bool, error)
+	AddActivity(string, string, string, string, string, string, string, ...string) (bool, error)
 }
 
-/// the account struct holds all account and financial information
+// the account struct holds all account and financial information
 type Account struct {
 	Title string
 	BeginDate time.Time
 	EndDate time.Time
 	Balance float64
+	Activities []*Activity
+}
+
+// this struct holds all information of one account activity. A activity can be a income or expense.
+type Activity struct {
+	AccountingDate time.Time
+	ValueDate time.Time
+	//Buchungstext
+	Category string
+	Originator string
+	Reference string
+	AccountNumber string
+	BankCode string
+	Amount float64
+	//Glaeubiger-ID
+	CreditorId string
+	ClientReference string
+	CustomerReference string
+	// income or expense (1|-1)
+	Type int
 }
 
 // setter method for the title
@@ -77,4 +98,74 @@ func (a *Account) SetBalance(newBalance string) (bool, error) {
 func formatCurrency(value string) string {
 
 	return strings.Replace(strings.Replace(value, ".", "", 1), ",", ".", 1)
+}
+
+// adds a activity to the account struct.
+// The additionals should be in order: category, creditor-id, clientReference and customerReference
+func (a *Account) AddActivity(  accountingDate,
+								valueDate,
+								amount,
+								originator,
+								reference,
+								accountNumber,
+								bankCode string,
+								additionals ...string) (bool, error)  {
+
+
+
+	//parse accounting date from string
+	aD, err := time.Parse("02.01.2006", accountingDate)
+
+	if err != nil {
+		return false, err
+	}
+
+	//parse value date from string
+	vD, err := time.Parse("02.01.2006", valueDate)
+
+	if err != nil {
+		return false, err
+	}
+
+	fAmount, err := strconv.ParseFloat(formatCurrency(amount), 64)
+
+	if err != nil {
+		return false, err
+	}
+
+	var activity *Activity = &Activity{
+		AccountingDate: aD,
+		ValueDate: vD,
+		Amount: fAmount,
+		Originator: originator,
+		Reference: reference,
+		AccountNumber: accountNumber,
+		BankCode: bankCode}
+
+	//add additional fields to activity
+	for i, additional := range additionals {
+
+		switch i {
+		case 0:
+			activity.Category = additional
+		case 1:
+			activity.CreditorId = additional
+		case 2:
+			activity.ClientReference = additional
+		case 3:
+			activity.CustomerReference = additional
+		}
+
+	}
+
+	//set type
+	if activity.Amount < 0 {
+		activity.Type = -1
+	} else {
+		activity.Type = 1
+	}
+
+	a.Activities = append(a.Activities, activity)
+
+	return true, nil
 }

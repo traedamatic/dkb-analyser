@@ -24,6 +24,10 @@ func (a *TestAccount) SetBalance(stringDate string) (bool, error) {
 	return true, nil
 }
 
+func (a *TestAccount) AddActivity(string, string, string, string, string, string, string, ...string) (bool, error) {
+	return true, nil
+}
+
 
 //read data and set the account title
 func TestParseDataAndSetAccountTitle(t *testing.T) {
@@ -101,6 +105,51 @@ func TestParseCSV_EndDate(t *testing.T) {
 func TestParseCSV_CurrentBalance(t *testing.T) {
 
 	csvData := []string{"Kontostand vom:", "9.999,45"}
+
+	newAccount := &TestAccount{}
+	result, err := ParseCSV(newAccount, csvData)
+
+	if result == false {
+		t.Fail()
+	}
+
+	if err != nil {
+		t.Fail()
+	}
+
+}
+
+func TestParseCSV_ActivitiesHeaders(t *testing.T) {
+
+	csvData := []string{"Buchungstag", "Wertstellung"}
+
+	newAccount := &TestAccount{}
+	result, err := ParseCSV(newAccount, csvData)
+
+	if result == false {
+		t.Fail()
+	}
+
+	if err != nil {
+		t.Fail()
+	}
+
+}
+
+func TestParseCSV_AddActivity(t *testing.T) {
+
+	csvData := []string{
+		"25.08.2016",
+		"25.08.2016",
+		"CATEGORY",
+		"ORIGINATOR",
+		"REFERENCE",
+		"DE111111",
+		"DEUTDEDBBER",
+		"6.78,62",
+		"",
+		"",
+		"14587645-0000030LG0000"}
 
 	newAccount := &TestAccount{}
 	result, err := ParseCSV(newAccount, csvData)

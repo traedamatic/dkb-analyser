@@ -89,3 +89,92 @@ func TestAccount_SetAccountBalanceBig(t *testing.T) {
 
 }
 
+//test the SetAccountBalance method and convert it to float (if string)
+func TestAccount_AddActivity(t *testing.T) {
+
+	newAccount := Account{}
+
+	result, err := newAccount.AddActivity(
+		"26.07.2016",
+		"28.07.2016",
+		"-116,90",
+		"KREDITKARTENABRECHNUNG",
+		"VISA-ABR. 555555555555",
+		"8888888888",
+		"12030088",
+		"KARTENZAHLUNG/-ABRECHNUNG",
+		"creditor",
+		"client",
+		"customer")
+
+
+
+	if result == false {
+		t.Fail()
+	}
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	i, _ := time.Parse("02.01.2006", "26.07.2016")
+	if newAccount.Activities[0].AccountingDate != i  {
+		t.Log("Fail accounting Date")
+		t.Fail()
+	}
+
+	i, _ = time.Parse("02.01.2006", "28.07.2016")
+	if newAccount.Activities[0].ValueDate != i  {
+		t.Log("Fail value Date")
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].Amount != float64(-116.90)  {
+		t.Log("Fail amount Date")
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].Originator != "KREDITKARTENABRECHNUNG"  {
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].Reference != "VISA-ABR. 555555555555"  {
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].AccountNumber != "8888888888"  {
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].BankCode != "12030088"  {
+		t.Log("Fail bankcode")
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].CreditorId != "creditor"  {
+		t.Log("Fail creditor id")
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].ClientReference != "client"  {
+		t.Log("Fail client")
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].CustomerReference != "customer"  {
+		t.Log("Fail customer ref")
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].Category != "KARTENZAHLUNG/-ABRECHNUNG"  {
+		t.Log("Fail category")
+		t.Fail()
+	}
+
+	if newAccount.Activities[0].Type != -1  {
+		t.Log("Fail type")
+		t.Fail()
+	}
+
+}
+

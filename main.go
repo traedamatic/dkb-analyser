@@ -69,6 +69,7 @@ func main() {
 	fmt.Println(thisAccount.Title)
 	fmt.Println(thisAccount.BeginDate.String())
 	fmt.Println(thisAccount.EndDate.String())
+	fmt.Println(len(thisAccount.Activities))
 
 
 }

@@ -22,8 +22,6 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(pArgs.Filename)
-
 	//start read file
 	file, err := os.Open(pArgs.Filename)
 	defer file.Close()
@@ -65,11 +63,34 @@ func main() {
 
 	}
 
-	//debug print out the parsed title
-	fmt.Println(thisAccount.Title)
-	fmt.Println(thisAccount.BeginDate.String())
-	fmt.Println(thisAccount.EndDate.String())
-	fmt.Println(len(thisAccount.Activities))
+	////debug print out the parsed title
+	//fmt.Println(thisAccount.Title)
+	//fmt.Println(thisAccount.BeginDate.String())
+	//fmt.Println(thisAccount.EndDate.String())
+	//fmt.Println(len(thisAccount.Activities))
+
+
+	printHomeScreen(thisAccount)
+
+
+	// this scans the stdin
+	scanner = bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+
+
+}
+
+func makeYellow(text string) string {
+	return fmt.Sprintf("\033[32m%s\033[39m", text)
+}
+
+func printHomeScreen(a *account.Account) {
+
+	//clear it
+	fmt.Print("\033c")
+	fmt.Printf("%s - Analyses your CSV DKB files - Konto: %s - CSV von %s bis %s", makeYellow("DKB Analyser"), a.Title, a.BeginDate.Format("01.02.2006"), a.EndDate.Format("01.02.2006"))
 
 
 }

@@ -1,19 +1,18 @@
 package main
 
 import (
-	"os"
-	"fmt"
-	"./parsearguments"
-	"./account"
-	"./csvdata"
 	"log"
 	"bufio"
+	"os"
+	"fmt"
 	"encoding/csv"
 	"strings"
 	"io"
-);
+	"./parsearguments"
+	"./csvdata"
+	"./account"
+)
 
-//the main function of the dkb-analyser
 func main() {
 
 	pArgs, err := parsearguments.ParseArguments(os.Args)
@@ -70,7 +69,7 @@ func main() {
 	//fmt.Println(len(thisAccount.Activities))
 
 
-	printHomeScreen(thisAccount)
+	PrintHomeScreen(thisAccount)
 
 
 	// this scans the stdin
@@ -78,19 +77,4 @@ func main() {
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 	}
-
-
-}
-
-func makeYellow(text string) string {
-	return fmt.Sprintf("\033[32m%s\033[39m", text)
-}
-
-func printHomeScreen(a *account.Account) {
-
-	//clear it
-	fmt.Print("\033c")
-	fmt.Printf("%s - Analyses your CSV DKB files - Konto: %s - CSV von %s bis %s", makeYellow("DKB Analyser"), a.Title, a.BeginDate.Format("01.02.2006"), a.EndDate.Format("01.02.2006"))
-
-
 }

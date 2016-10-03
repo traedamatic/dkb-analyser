@@ -38,3 +38,5 @@ gen
 # nerver include any csv
 *.csv
 *.trash
+
+dkbanalyser

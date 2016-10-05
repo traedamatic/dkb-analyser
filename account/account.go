@@ -169,3 +169,19 @@ func (a *Account) AddActivity(  accountingDate,
 
 	return true, nil
 }
+
+//return the activities ordered by month as map with string 01-2006 as key
+func (a *Account) getActivitiesOrderedByMonth() (map[string][]*Activity, error) {
+
+	var orderedActivities map[string][]*Activity = make(map[string][]*Activity)
+
+	for _, activity := range a.Activities {
+
+		key := activity.ValueDate.Format("01-2006")
+
+		orderedActivities[key] = append(orderedActivities[key], activity)
+	}
+
+	return orderedActivities, nil
+
+}

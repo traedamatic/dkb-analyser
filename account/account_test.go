@@ -178,3 +178,67 @@ func TestAccount_AddActivity(t *testing.T) {
 
 }
 
+func TestAccount_GetActivitiesOrderedByMonth(t *testing.T) {
+
+	newAccount := Account{}
+
+	_, _ = newAccount.AddActivity(
+		"26.07.2016",
+		"28.07.2016",
+		"-116,90",
+		"KREDITKARTENABRECHNUNG",
+		"VISA-ABR. 555555555555",
+		"8888888888",
+		"12030088",
+		"KARTENZAHLUNG/-ABRECHNUNG",
+		"creditor",
+		"client",
+		"customer")
+
+
+	_, _ = newAccount.AddActivity(
+		"12.07.2016",
+		"12.07.2016",
+		"555,90",
+		"KREDITKARTENABRECHNUNG",
+		"VISA-ABR. 555555555555",
+		"8888888888",
+		"12030088",
+		"KARTENZAHLUNG/-ABRECHNUNG",
+		"creditor",
+		"client",
+		"customer")
+
+	_, _ = newAccount.AddActivity(
+		"12.06.2016",
+		"12.06.2016",
+		"222,90",
+		"KREDITKARTENABRECHNUNG",
+		"VISA-ABR. 2222",
+		"8888888888",
+		"12030088",
+		"KARTENZAHLUNG/-ABRECHNUNG",
+		"creditor",
+		"client",
+		"customer")
+
+
+	activities, err := newAccount.getActivitiesOrderedByMonth()
+
+	if len(activities) == 0 {
+		t.Fail();
+	}
+
+	if err != nil {
+		t.Fail()
+	}
+
+	if len(activities["07-2016"]) != 2 {
+		t.Fail()
+	}
+
+	if len(activities["06-2016"]) != 1 {
+		t.Fail()
+	}
+
+}

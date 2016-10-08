@@ -28,7 +28,7 @@ type Account struct {
 	Balance                  float64
 	Activities               []*Activity
 
-	groupedByMonthActivities map[string][]*Activity
+	groupedByMonthActivities map[string]*AccountingMonth
 }
 
 // this struct holds all information of one account activity. A activity can be a income or expense.
@@ -48,6 +48,18 @@ type Activity struct {
 	CustomerReference string
 	// income or expense (1|-1)
 	Type int
+}
+
+// this struct holds a stats and the activities of a single month
+type AccountingMonth struct {
+	//title pattern 01-2006
+	Title string
+	From time.Time
+	Until time.Time
+	//next *AccountingMonth
+	//prev *AccountingMonth
+	Activities []*Activity
+	Balance float64
 }
 
 // setter method for the title
@@ -173,19 +185,32 @@ func (a *Account) AddActivity(  accountingDate,
 }
 
 //return the activities ordered by month as map with string 01-2006 as key
-func (a *Account) getActivitiesGroupByMonth() (map[string][]*Activity, error) {
+func (a *Account) getActivitiesGroupByMonth() (map[string]*AccountingMonth, error) {
 
 	if len(a.groupedByMonthActivities) > 0 {
 		return a.groupedByMonthActivities, nil
 	}
 
-	a.groupedByMonthActivities = make(map[string][]*Activity)
+	a.groupedByMonthActivities = make(map[string]*AccountingMonth)
 
 	for _, activity := range a.Activities {
 
 		key := activity.ValueDate.Format("01-2006")
 
-		a.groupedByMonthActivities[key] = append(a.groupedByMonthActivities[key], activity)
+		if a.groupedByMonthActivities[key] == nil {
+
+			a.groupedByMonthActivities[key] = &AccountingMonth{
+				Balance: activity.Amount,
+				Title: key,
+				Activities: []*Activity{activity}}
+
+
+			continue
+		}
+
+		a.groupedByMonthActivities[key].Balance += activity.Amount
+		a.groupedByMonthActivities[key].Activities = append(a.groupedByMonthActivities[key].Activities, activity)
+
 	}
 
 	return a.groupedByMonthActivities, nil

@@ -192,11 +192,15 @@ func TestAccount_GetActivitiesGroupByMonth(t *testing.T) {
 		t.Fail()
 	}
 
-	if len(activities["07-2016"]) != 2 {
+	if len(activities["07-2016"].Activities) != 2 {
 		t.Fail()
 	}
 
-	if len(activities["06-2016"]) != 1 {
+	if len(activities["06-2016"].Activities) != 1 {
+		t.Fail()
+	}
+
+	if activities["07-2016"].Balance != (555.90 - 116.90) {
 		t.Fail()
 	}
 
@@ -217,11 +221,11 @@ func TestAccount_GetActivitiesGroupByMonthUseCache(t *testing.T) {
 		t.Fail()
 	}
 
-	if len(activities["07-2016"]) != 2 {
+	if len(activities["07-2016"].Activities) != 2 {
 		t.Fail()
 	}
 
-	if len(activities["06-2016"]) != 1 {
+	if len(activities["06-2016"].Activities) != 1 {
 		t.Fail()
 	}
 
@@ -235,11 +239,11 @@ func TestAccount_GetActivitiesGroupByMonthUseCache(t *testing.T) {
 		t.Fail()
 	}
 
-	if len(activities["07-2016"]) != 2 {
+	if len(activities["07-2016"].Activities) != 2 {
 		t.Fail()
 	}
 
-	if len(activities["06-2016"]) != 1 {
+	if len(activities["06-2016"].Activities) != 1 {
 		t.Fail()
 	}
 

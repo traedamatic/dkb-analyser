@@ -9,7 +9,35 @@ import (
 	"time"
 	"strconv"
 	"strings"
+	"sort"
 )
+
+//sorting activities by date, implements the sort interface
+type ActivitiesByDate []*Activity
+
+func (a ActivitiesByDate) Len() int  {
+	return len(a)
+}
+
+func (a ActivitiesByDate) Less(i, j int) bool  {
+	return a[i].ValueDate.Before(a[j].ValueDate)
+}
+
+func (a ActivitiesByDate) Swap(i, j int)  {
+	a[i], a[j] = a[j], a[i]
+}
+
+// this struct holds a stats and the activities of a single month
+type AccountingMonth struct {
+	//title pattern 01-2006
+	Title string
+	From time.Time
+	Until time.Time
+	//next *AccountingMonth
+	//prev *AccountingMonth
+	Activities []*Activity
+	Balance float64
+}
 
 // a generic account interface
 type AccountInterface interface {
@@ -48,18 +76,6 @@ type Activity struct {
 	CustomerReference string
 	// income or expense (1|-1)
 	Type int
-}
-
-// this struct holds a stats and the activities of a single month
-type AccountingMonth struct {
-	//title pattern 01-2006
-	Title string
-	From time.Time
-	Until time.Time
-	//next *AccountingMonth
-	//prev *AccountingMonth
-	Activities []*Activity
-	Balance float64
 }
 
 // setter method for the title
@@ -204,13 +220,16 @@ func (a *Account) getActivitiesGroupByMonth() (map[string]*AccountingMonth, erro
 				Title: key,
 				Activities: []*Activity{activity}}
 
-
 			continue
 		}
 
 		a.groupedByMonthActivities[key].Balance += activity.Amount
 		a.groupedByMonthActivities[key].Activities = append(a.groupedByMonthActivities[key].Activities, activity)
 
+	}
+
+	for _, singleMonth := range a.groupedByMonthActivities {
+		sort.Sort(ActivitiesByDate(singleMonth.Activities))
 	}
 
 	return a.groupedByMonthActivities, nil

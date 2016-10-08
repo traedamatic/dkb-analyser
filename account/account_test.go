@@ -296,3 +296,24 @@ func createNewAccountWithActivities() Account {
 
 	return newAccount
 }
+
+func TestAccount_GetActivitiesGroupByMonthSortedByDate(t *testing.T) {
+
+	newAccount := createNewAccountWithActivities()
+
+	activities, err := newAccount.getActivitiesGroupByMonth()
+
+
+	if len(activities) == 0 {
+		t.Fail();
+	}
+
+	if err != nil {
+		t.Fail()
+	}
+
+	if activities["07-2016"].Activities[0].ValueDate.Before(activities["07-2016"].Activities[1].ValueDate) == false {
+		t.Fail()
+	}
+
+}

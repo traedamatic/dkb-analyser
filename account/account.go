@@ -22,11 +22,13 @@ type AccountInterface interface {
 
 // the account struct holds all account and financial information
 type Account struct {
-	Title string
-	BeginDate time.Time
-	EndDate time.Time
-	Balance float64
-	Activities []*Activity
+	Title                    string
+	BeginDate                time.Time
+	EndDate                  time.Time
+	Balance                  float64
+	Activities               []*Activity
+
+	groupedByMonthActivities map[string][]*Activity
 }
 
 // this struct holds all information of one account activity. A activity can be a income or expense.
@@ -171,17 +173,21 @@ func (a *Account) AddActivity(  accountingDate,
 }
 
 //return the activities ordered by month as map with string 01-2006 as key
-func (a *Account) getActivitiesOrderedByMonth() (map[string][]*Activity, error) {
+func (a *Account) getActivitiesGroupByMonth() (map[string][]*Activity, error) {
 
-	var orderedActivities map[string][]*Activity = make(map[string][]*Activity)
+	if len(a.groupedByMonthActivities) > 0 {
+		return a.groupedByMonthActivities, nil
+	}
+
+	a.groupedByMonthActivities = make(map[string][]*Activity)
 
 	for _, activity := range a.Activities {
 
 		key := activity.ValueDate.Format("01-2006")
 
-		orderedActivities[key] = append(orderedActivities[key], activity)
+		a.groupedByMonthActivities[key] = append(a.groupedByMonthActivities[key], activity)
 	}
 
-	return orderedActivities, nil
+	return a.groupedByMonthActivities, nil
 
 }

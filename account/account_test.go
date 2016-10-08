@@ -178,7 +178,75 @@ func TestAccount_AddActivity(t *testing.T) {
 
 }
 
-func TestAccount_GetActivitiesOrderedByMonth(t *testing.T) {
+func TestAccount_GetActivitiesGroupByMonth(t *testing.T) {
+
+	newAccount := createNewAccountWithActivities()
+
+	activities, err := newAccount.getActivitiesGroupByMonth()
+
+	if len(activities) == 0 {
+		t.Fail();
+	}
+
+	if err != nil {
+		t.Fail()
+	}
+
+	if len(activities["07-2016"]) != 2 {
+		t.Fail()
+	}
+
+	if len(activities["06-2016"]) != 1 {
+		t.Fail()
+	}
+
+}
+
+
+func TestAccount_GetActivitiesGroupByMonthUseCache(t *testing.T) {
+
+	newAccount := createNewAccountWithActivities()
+
+	activities, err := newAccount.getActivitiesGroupByMonth()
+
+	if len(activities) == 0 {
+		t.Fail();
+	}
+
+	if err != nil {
+		t.Fail()
+	}
+
+	if len(activities["07-2016"]) != 2 {
+		t.Fail()
+	}
+
+	if len(activities["06-2016"]) != 1 {
+		t.Fail()
+	}
+
+	activities, err = newAccount.getActivitiesGroupByMonth()
+
+	if len(activities) == 0 {
+		t.Fail();
+	}
+
+	if err != nil {
+		t.Fail()
+	}
+
+	if len(activities["07-2016"]) != 2 {
+		t.Fail()
+	}
+
+	if len(activities["06-2016"]) != 1 {
+		t.Fail()
+	}
+
+}
+
+//helper function to create a account with multiple activities
+func createNewAccountWithActivities() Account {
 
 	newAccount := Account{}
 
@@ -222,23 +290,5 @@ func TestAccount_GetActivitiesOrderedByMonth(t *testing.T) {
 		"client",
 		"customer")
 
-
-	activities, err := newAccount.getActivitiesOrderedByMonth()
-
-	if len(activities) == 0 {
-		t.Fail();
-	}
-
-	if err != nil {
-		t.Fail()
-	}
-
-	if len(activities["07-2016"]) != 2 {
-		t.Fail()
-	}
-
-	if len(activities["06-2016"]) != 1 {
-		t.Fail()
-	}
-
+	return newAccount
 }

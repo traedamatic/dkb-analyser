@@ -182,7 +182,7 @@ func TestAccount_GetActivitiesGroupByMonth(t *testing.T) {
 
 	newAccount := createNewAccountWithActivities()
 
-	activities, err := newAccount.getActivitiesGroupByMonth()
+	activities, err := newAccount.GetActivitiesGroupByMonth()
 
 	if len(activities) == 0 {
 		t.Fail();
@@ -211,7 +211,7 @@ func TestAccount_GetActivitiesGroupByMonthUseCache(t *testing.T) {
 
 	newAccount := createNewAccountWithActivities()
 
-	activities, err := newAccount.getActivitiesGroupByMonth()
+	activities, err := newAccount.GetActivitiesGroupByMonth()
 
 	if len(activities) == 0 {
 		t.Fail();
@@ -229,7 +229,7 @@ func TestAccount_GetActivitiesGroupByMonthUseCache(t *testing.T) {
 		t.Fail()
 	}
 
-	activities, err = newAccount.getActivitiesGroupByMonth()
+	activities, err = newAccount.GetActivitiesGroupByMonth()
 
 	if len(activities) == 0 {
 		t.Fail();
@@ -301,7 +301,7 @@ func TestAccount_GetActivitiesGroupByMonthSortedByDate(t *testing.T) {
 
 	newAccount := createNewAccountWithActivities()
 
-	activities, err := newAccount.getActivitiesGroupByMonth()
+	activities, err := newAccount.GetActivitiesGroupByMonth()
 
 
 	if len(activities) == 0 {

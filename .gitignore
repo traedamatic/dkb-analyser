@@ -41,3 +41,5 @@ gen
 *.trash
 
 dkbanalyser
+tmp
+tmp/*

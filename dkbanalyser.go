@@ -1,19 +1,18 @@
 package main
 
 import (
-	"os"
-	"fmt"
-	"./parsearguments"
-	"./account"
-	"./csvdata"
 	"log"
 	"bufio"
+	"os"
+	"fmt"
 	"encoding/csv"
 	"strings"
 	"io"
-);
+	"./parsearguments"
+	"./csvdata"
+	"./account"
+)
 
-//the main function of the dkb-analyser
 func main() {
 
 	pArgs, err := parsearguments.ParseArguments(os.Args)
@@ -21,8 +20,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println(pArgs.Filename)
 
 	//start read file
 	file, err := os.Open(pArgs.Filename)
@@ -65,11 +62,19 @@ func main() {
 
 	}
 
-	//debug print out the parsed title
-	fmt.Println(thisAccount.Title)
-	fmt.Println(thisAccount.BeginDate.String())
-	fmt.Println(thisAccount.EndDate.String())
-	fmt.Println(len(thisAccount.Activities))
+	////debug print out the parsed title
+	//fmt.Println(thisAccount.Title)
+	//fmt.Println(thisAccount.BeginDate.String())
+	//fmt.Println(thisAccount.EndDate.String())
+	//fmt.Println(len(thisAccount.Activities))
 
 
+	PrintHomeScreen(thisAccount)
+
+
+	// this scans the stdin
+	scanner = bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
 }

@@ -23,7 +23,7 @@ account details. First it will be command-line tool only.
 # Usage
 
 ```
-go run main.go CSVFILEPATH
+go run main.go ui.go CSVFILEPATH
 ```
 
 # Tests

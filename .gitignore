@@ -40,6 +40,5 @@ gen
 *.csv
 *.trash
 
-dkbanalyser
 tmp
-tmp/*
+vendor

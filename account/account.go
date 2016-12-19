@@ -203,6 +203,7 @@ func (a *Account) AddActivity(  accountingDate,
 //return the activities ordered by month as map with string 01-2006 as key
 func (a *Account) GetActivitiesGroupByMonth() (map[string]*AccountingMonth, error) {
 
+	//some caching here
 	if len(a.groupedByMonthActivities) > 0 {
 		return a.groupedByMonthActivities, nil
 	}

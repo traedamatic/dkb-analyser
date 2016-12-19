@@ -16,6 +16,10 @@ account details. First it will be command-line tool only.
 * Calculate the income and expenses
 * Forecast calculation for the next month
 
+# Dependencies
+
+* github.com/jroimartin/gocui / fantastic termbox ui implementation
+
 # Usage
 
 ```

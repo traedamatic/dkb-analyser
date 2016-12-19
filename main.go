@@ -4,7 +4,6 @@ import (
 	"log"
 	"bufio"
 	"os"
-	"fmt"
 	"encoding/csv"
 	"strings"
 	"io"
@@ -62,19 +61,8 @@ func main() {
 
 	}
 
-	////debug print out the parsed title
-	//fmt.Println(thisAccount.Title)
-	//fmt.Println(thisAccount.BeginDate.String())
-	//fmt.Println(thisAccount.EndDate.String())
-	//fmt.Println(len(thisAccount.Activities))
+	// start the ui
+	Draw(thisAccount)
 
 
-	PrintHomeScreen(thisAccount)
-
-
-	// this scans the stdin
-	scanner = bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		fmt.Println(scanner.Text())
-	}
 }

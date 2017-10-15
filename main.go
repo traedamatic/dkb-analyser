@@ -10,6 +10,7 @@ import (
 	"./parsearguments"
 	"./csvdata"
 	"./account"
+	"./ui"
 )
 
 func main() {
@@ -62,7 +63,6 @@ func main() {
 	}
 
 	// start the ui
-	Draw(thisAccount)
-
+	ui.Draw(thisAccount)
 
 }

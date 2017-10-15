@@ -1,10 +1,10 @@
-package main
+package ui
 
 import (
 	"github.com/jroimartin/gocui"
 	"log"
 	"fmt"
-	"./account"
+	"../account"
 	"strconv"
 )
 
@@ -56,10 +56,27 @@ func (l OverviewLayout) Layout(g *gocui.Gui) error {
 
 	lastMonth := int(l.Account.EndDate.Month())
 	lastYear := l.Account.EndDate.Year()
-	var lastThreeMonthKeys []string = []string{
-		fmt.Sprintf("0%s-%s", strconv.Itoa(lastMonth - 2), strconv.Itoa(lastYear)),
-		fmt.Sprintf("0%s-%s", strconv.Itoa(lastMonth - 1), strconv.Itoa(lastYear)),
-		fmt.Sprintf("0%s-%s", strconv.Itoa(lastMonth), strconv.Itoa(lastYear))}
+
+	var lastThreeMonthKeys []string
+	count := 0
+	for {
+
+		currentMonth := lastMonth - count
+
+		if currentMonth >= 10 {
+			lastThreeMonthKeys = append(lastThreeMonthKeys, fmt.Sprintf("%s-%s", strconv.Itoa(currentMonth), strconv.Itoa(lastYear)))
+		} else {
+			lastThreeMonthKeys = append(lastThreeMonthKeys, fmt.Sprintf("0%s-%s", strconv.Itoa(currentMonth), strconv.Itoa(lastYear)))
+		}
+
+		count++
+
+		if count == 3	{
+			break
+		}
+
+	}
+
 
 	for index, key := range lastThreeMonthKeys {
 
